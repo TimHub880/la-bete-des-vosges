@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Bête des Vosges</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Lora:ital@0;1&family=Old+Standard+TT:wght@400;700&display=swap');
+        
+        :root {
+            --primary-color: #ffcc00;
+            --primary-dark: #e6b800;
+            --text-color: #333;
+            --bg-color: #f8f8f8;
+            --header-bg: #222;
+            --card-bg: #fff;
+            --card-shadow: rgba(0, 0, 0, 0.1);
+            --transition-speed: 0.3s;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            font-size: 18px;
+        }
+        
+        /* Effet de défilement doux */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Style de l'en-tête façon journal */
+        header {
+            background-color: var(--header-bg);
+            color: #fff;
+            padding: 0;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+        
+        .header-top {
+            background-color: var(--primary-color);
+            padding: 0.5rem 0;
+            color: black;
+            font-family: 'Old Standard TT', serif;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+        }
+        
+        .header-date {
+            margin-left: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+        
+        .header-edition {
+            margin-right: 1rem;
+            font-style: italic;
+        }
+        
+        .masthead {
+            padding: 1.5rem 0;
+            background: linear-gradient(to bottom, #333, #222);
+            border-bottom: 3px solid var(--primary-color);
+        }
+        
+        .journal-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 900;
+            font-size: 3.5rem;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--primary-color);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            line-height: 1;
+        }
+        
+        .journal-subtitle {
+            font-family: 'Old Standard TT', serif;
+            font-size: 1rem;
+            margin: 0.5rem 0 0;
+            font-style: italic;
+            letter-spacing: 1px;
+            color: #ccc;
+        }
+        
+        .article-title-section {
+            padding: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .article-heading {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.4rem;
+            font-weight: 700;
+            margin: 0;
+            padding: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1px;
+        }
+        
+        .article-subheading {
+            font-family: 'Lora', serif;
+            font-size: 1.2rem;
+            font-style: italic;
+            margin: 0.5rem 0 0;
+            color: #bbb;
+        }
+        
+        /* Style du contenu principal */
+        main {
+            padding: 2rem;
+            max-width: 900px;
+            margin: 0 auto 3rem;
+            background-color: var(--card-bg);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border-radius: 10px;
+            position: relative;
+        }
+        
+        /* Décorateur de page */
+        main::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        
+        /* Titres stylisés */
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--text-color);
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        h1 {
+            color: #fff;
+            font-size: 2.2em;
+        }
+        
+        h2 {
+            font-size: 1.7em;
+            margin-top: 2.5rem;
+            margin-bottom: 1.2rem;
+        }
+        
+        h2::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 70px;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+        
+        p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+            font-size: 1.05em;
+        }
+        
+        /* Images stylisées */
+        img {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 8px;
+            transition: transform var(--transition-speed);
+            max-width: 100%;
+            height: auto;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        img:hover {
+            transform: scale(1.01);
+        }
+        
+        /* Liens stylisés */
+        a {
+            color: var(--primary-dark);
+            text-decoration: none;
+            transition: all var(--transition-speed);
+            font-weight: bold;
+            border-bottom: 1px solid transparent;
+        }
+        
+        a:hover {
+            color: var(--primary-color);
+            border-bottom: 1px solid var(--primary-color);
+            text-decoration: none;
+        }
+        
+        /* Texte en gras */
+        strong {
+            color: #000;
+            font-weight: bold;
+            background: linear-gradient(transparent 70%, rgba(255, 204, 0, 0.2) 100%);
+            padding: 0 2px;
+        }
+        
+        /* Carrousel d'images amélioré */
+        .carousel {
+            display: flex;
+            overflow: hidden;
+            width: 100%;
+            margin: 2rem 0;
+            justify-content: center;
+            border-radius: 10px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            position: relative;
+            height: 400px;
+        }
+        
+        .carousel-inner {
+            display: flex;
+            transition: transform 0.5s ease;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .carousel-inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            margin: 0;
+            border-radius: 0;
+            box-shadow: none;
+            opacity: 0;
+            position: absolute;
+            transition: opacity 1.5s ease-in-out;
+        }
+        
+        .carousel-inner img[style*="display: block"] {
+            opacity: 1;
+        }
+        
+        .carousel-inner .card {
+            flex: 0 0 auto;
+            width: auto;
+            margin: 0 10px;
+            padding: 1.25rem;
+            background-color: var(--card-bg);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border-radius: 8px;
+            max-width: 18.75rem;
+            border-left: 3px solid var(--primary-color);
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+            font-style: italic;
+            font-family: 'Lora', serif;
+        }
+        
+        .carousel-inner .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+        
+        /* Contrôles de carrousel stylisés */
+        .carousel-controls {
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+        
+        .carousel-controls button {
+            background-color: var(--primary-color);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            margin: 0 0.5rem;
+            cursor: pointer;
+            font-size: 1em;
+            color: var(--text-color);
+            font-weight: bold;
+            border-radius: 30px;
+            transition: all var(--transition-speed);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .carousel-controls button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Map stylisée */
+        #map {
+            height: 450px;
+            margin: 2rem 0;
+            border-radius: 10px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border: 3px solid #fff;
+        }
+        
+        /* Sections de témoignages et scientifiques */
+        .testimony-section, .scientific-section {
+            display: flex;
+            align-items: flex-start;
+            gap: 30px;
+            margin: 3rem 0;
+            padding: 25px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform var(--transition-speed);
+        }
+        
+        .testimony-section:hover, .scientific-section:hover {
+            transform: translateY(-5px);
+        }
+        
+        .testimony-section img, .scientific-section img {
+            max-width: 40%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        
+        /* Distinction entre images spécifiques */
+        img[src="https://cdn-s-www.vosgesmatin.fr/images/6FB104C8-FC64-4DB8-AE72-BC6459A7EB9B/NW_raw/le-29-avril-1977-260-hommes-furent-mobilises-pour-traquer-la-bete-des-vosges-photo-vm-ernest-gless-1658678831.jpg"] {
+            max-width: 80%;
+            height: auto;
+            display: block;
+            margin: 2rem auto;
+        }
+        
+        img[src="https://cdn-s-www.vosgesmatin.fr/images/6E75A7D2-B6C5-49FB-A8E0-61E7E8AE8313/NW_detail/l-unique-photo-de-la-bete-des-vosges-(19-04-77)-photo-ernest-gless-1579793581.jpg"] {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 2rem auto;
+            filter: sepia(20%);
+        }
+        
+        /* Témoignages carrousel automatique */
+        #testimony-carousel {
+            height: auto;
+            box-shadow: none;
+            background: none;
+            margin-top: 1rem;
+        }
+        
+        #testimony-carousel .carousel-inner {
+            gap: 1.5rem;
+            position: relative;
+            height: auto;
+        }
+        
+        /* Animation d'apparition au défilement */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        section {
+            opacity: 0;
+            animation: fadeIn 0.8s ease forwards;
+        }
+        
+        /* Pied de page amélioré */
+        footer {
+            background-color: var(--header-bg);
+            color: #fff;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        footer img {
+            height: 35px;
+            vertical-align: middle;
+            margin: 0 auto 15px;
+            display: block;
+            box-shadow: none;
+        }
+        
+        footer a {
+            color: var(--primary-color);
+            margin: 0 10px;
+            transition: all var(--transition-speed);
+            border-bottom: 1px solid transparent;
+        }
+        
+        footer a:hover {
+            color: #fff;
+            border-bottom: 1px solid #fff;
+        }
+        
+        /* Media queries */
+        @media (max-width: 768px) {
+            body {
+                font-size: 16px;
+            }
+            
+            .journal-title {
+                font-size: 2.5rem;
+            }
+            
+            .article-heading {
+                font-size: 1.8rem;
+            }
+            
+            .header-top {
+                flex-direction: column;
+                padding: 0.3rem 0;
+                font-size: 0.8rem;
+            }
+            
+            .header-date, .header-edition {
+                margin: 0.2rem 0;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            h2 {
+                font-size: 1.4em;
+            }
+            
+            main {
+                padding: 1.5rem;
+                margin: 0 15px 2rem;
+            }
+            
+            .carousel {
+                height: 300px;
+            }
+            
+            .testimony-section, .scientific-section {
+                flex-direction: column;
+                padding: 20px;
+            }
+            
+            .testimony-section img, .scientific-section img {
+                max-width: 100%;
+                margin-bottom: 15px;
+            }
+            
+            .carousel-controls button {
+                padding: 0.6rem 1rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+<body>
+    <header>
+        <div class="header-top">
+            <div class="header-date">Samedi 12 Octobre 2024</div>
+            <div class="header-edition">Édition spéciale - Mystères des Vosges</div>
+        </div>
+        <div class="masthead">
+            <h1 class="journal-title">Le Journal des Vosges</h1>
+            <p class="journal-subtitle">L'actualité au cœur de nos montagnes depuis 1876</p>
+        </div>
+        <div class="article-title-section">
+            <h1 class="article-heading">La Bête des Vosges : Mythe ou Réalité ?</h1>
+            <p class="article-subheading">Une enquête sur la mystérieuse créature qui hante nos forêts depuis des décennies</p>
+        </div>
+    </header>
+    <main>
+        <div class="carousel" id="image-carousel">
+            <div class="carousel-inner">
+                <img src="https://lh5.googleusercontent.com/proxy/IdKL9fgK3f-4f11Ab0G1eeq-fiHNyZrKaYnAHnYXHYKGUlVY_PiC2GnUfVS4uYuILM-9k29Herh8AphfA9n9jr9U3tDeNlQnit2myZfcJS2XdLEXHZCaNfs" alt="Illustration de la bête des Vosges">
+                <img src="https://live.staticflickr.com/5582/31275749362_a1b557ec6c_b.jpg" alt="Image 2">
+                <img src="https://cdn-s-www.vosgesmatin.fr/images/2CD8DF6B-E7E2-4A8D-92F2-3873C903FC4B/NW_raw/le-renfort-de-la-gendarmerie-et-des-brigades-cynophiles-sont-appeles-a-la-rescousse-1656949351.jpg" alt="Image 3">
+                <img src="https://media.marianne.net/assets/asMg2SCHiGhRBghfc.jpg" alt="Image 4">
+            </div>
+        </div>
+        
+        <section>
+            <h2>Introduction</h2>
+            <p><strong>La légende de la bête des Vosges</strong> est un phénomène qui a captivé l'imagination de nombreux habitants de la région. Ce mystérieux animal, souvent décrit comme un grand prédateur, aurait été aperçu à plusieurs reprises dans les forêts vosgiennes.</p>
+        </section>
+        
+        <section>
+            <h2>Origines de la Légende</h2>
+            <p>Les premières mentions de la bête remontent au début du XXe siècle. Les témoignages parlent d'un animal ressemblant à un loup, mais de taille bien plus imposante. Les rumeurs ont rapidement enflé, alimentées par des récits de chasseurs et de promeneurs.</p>
+        </section>
+        
+        <div class="carousel" id="testimony-carousel">
+            <div class="carousel-inner">
+                <div class="card">"J'ai vu une créature immense traverser la route." - Jean Dupont</div>
+                <div class="card">"Elle ressemblait à un loup, mais bien plus grande." - Marie Curie</div>
+                <div class="card">"Les hurlements étaient terrifiants." - Pierre Martin</div>
+                <div class="card">"Jamais je n'avais vu un tel animal." - Lucie Bernard</div>
+                <div class="card">"J'ai vu une créature immense traverser la route." - Jean Dupont</div>
+                <div class="card">"Elle ressemblait à un loup, mais bien plus grande." - Marie Curie</div>
+                <div class="card">"Les hurlements étaient terrifiants." - Pierre Martin</div>
+                <div class="card">"Jamais je n'avais vu un tel animal." - Lucie Bernard</div>
+            </div>
+        </div>
+        
+        <section>
+            <h2>Le parcours de la bête</h2>
+            <div id="map"></div>
+        </section>
+        
+        <section class="testimony-section">
+            <img src="https://cdn-s-www.lalsace.fr/images/CA1F28B1-EC06-4672-8906-0F6A21827498/NW_raw/jean-paul-schwindy-un-des-trois-hommes-qui-a-realise-cette-oeuvre-monumentale-photo-l-alsace-armelle-bohn-1479492645.jpg" alt="Ancienne illustration de la bête">
+            <div>
+                <h2>Les Témoignages</h2>
+                <p>De nombreux témoignages ont été recueillis au fil des années, chacun apportant sa propre version de l'histoire. Certains parlent d'une créature féroce, d'autres d'un animal plus craintif. Les descriptions varient, mais toutes s'accordent sur un point : <strong>la bête est insaisissable</strong>.</p>
+            </div>
+        </section>
+        
+        <section class="scientific-section">
+            <img src="https://pokaa.fr/wp-content/uploads/2021/06/bete_vosges-5-1024x757.jpg" alt="Trace de patte de la bête des Vosges">
+            <div>
+                <h2>Explications Scientifiques</h2>
+                <p>Les scientifiques ont tenté d'expliquer ces apparitions par la présence de loups ou de chiens errants. Cependant, aucune preuve tangible n'a jamais été trouvée pour confirmer l'existence de la bête des Vosges. Cette image montrerait une des rares traces de patte de la bête, alimentant les spéculations sur sa véritable nature.</p>
+            </div>
+        </section>
+        
+        <section>
+            <h2>Conclusion</h2>
+            <p>Qu'il s'agisse d'un mythe ou d'une réalité, la bête des Vosges continue de fasciner et d'intriguer. Elle est devenue un symbole de la région, attirant curieux et passionnés de mystères.</p>
+            <img src="https://cdn-s-www.vosgesmatin.fr/images/6E75A7D2-B6C5-49FB-A8E0-61E7E8AE8313/NW_detail/l-unique-photo-de-la-bete-des-vosges-(19-04-77)-photo-ernest-gless-1579793581.jpg" alt="Paysage des Vosges">
+            <p>Pour en savoir plus sur les légendes locales, consultez <a href="https://fr.wikipedia.org/wiki/B%C3%AAte_des_Vosges" target="_blank">cet article</a>.</p>
+        </section>
+    </main>
+    
+    <footer>
+        <img src="https://files.oaiusercontent.com/file-2WFfDGCEFt6BLEMFt1Wj5K?se=2025-03-05T11%3A52%3A13Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3D94bd3254-4f29-4890-8242-6f48fb02adfd.webp&sig=NCSDg3UaDHFRirq9r8hpAbMW5uZ51xfXATZGid/Sf50%3D" alt="">
+        <p>Sources et Liens :</p>
+        <a href="https://fr.wikipedia.org/wiki/B%C3%AAte_des_Vosges" target="_blank">Wikipedia</a> |
+        <a href="https://iut-epinal.univ-lorraine.fr/" target="_blank">Site de l'IUT</a> |
+        <a href="#" >Accueil</a> |
+        <a href="#" >À propos</a> |
+        <a href="#" >Contact</a>
+    </footer>
+    
+    <script>
+        let currentIndex = 0;
+        const images = document.querySelectorAll('#image-carousel .carousel-inner img');
+        
+        function showImage(index) {
+            images.forEach((img, i) => {
+                img.style.display = i === index ? 'block' : 'none';
+            });
+        }
+        
+        // Fonction de transition douce entre les images
+        function fadeToNextImage() {
+            const currentImg = images[currentIndex];
+            currentIndex = (currentIndex < images.length - 1) ? currentIndex + 1 : 0;
+            const nextImg = images[currentIndex];
+            
+            // Commencer la transition
+            currentImg.style.opacity = '1';
+            nextImg.style.display = 'block';
+            nextImg.style.opacity = '0';
+            
+            // Animation de fondu enchaîné
+            let opacity = 0;
+            const fadeEffect = setInterval(() => {
+                if (opacity >= 1) {
+                    clearInterval(fadeEffect);
+                    currentImg.style.display = 'none';
+                } else {
+                    opacity += 0.02; // Vitesse de la transition (plus petit = plus lent)
+                    nextImg.style.opacity = opacity.toString();
+                    currentImg.style.opacity = (1 - opacity).toString();
+                }
+            }, 30); // Intervalle de l'animation
+        }
+        
+        // Démarrer le défilement automatique
+        function startImageCarousel() {
+            showImage(0); // Afficher la première image
+            
+            // Défilement toutes les 8 secondes (ajustez pour un défilement plus ou moins lent)
+            setInterval(fadeToNextImage, 8000);
+        }
+
+        // Animation au défilement
+        document.addEventListener('DOMContentLoaded', function() {
+            // Démarrage du carrousel d'images automatique
+            startImageCarousel();
+            
+            // Carrousel de témoignages
+            const testimonies = document.querySelector('#testimony-carousel .carousel-inner');
+            let offset = 0;
+
+            function scrollTestimonies() {
+                offset -= 1; // Move by 1px for smoother continuous scroll
+                if (Math.abs(offset) >= testimonies.scrollWidth / 2) {
+                    offset = 0; // Reset offset to loop
+                }
+                testimonies.style.transform = `translateX(${offset}px)`;
+            }
+
+            setInterval(scrollTestimonies, 20); // Scroll continuously
+            
+            // Animation des sections au défilement
+            const sections = document.querySelectorAll('section');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animation = 'fadeIn 0.8s ease forwards';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+            
+            // Carte
+            var map = L.map('map').setView([48.076, 6.882], 11);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 18,
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+
+            var markers = [
+                {coords: [48.116, 7.000], text: "La bête aurait été aperçue dans cette forêt lors de soirées brumeuses, se déplaçant silencieusement entre les arbres. Des empreintes anormales et des griffures sur certains troncs ont été relevées, ainsi qu'un incident isolé impliquant un petit troupeau caprin."},
+                {coords: [48.042, 6.948], text: "Sur les sentiers bordant le lac, plusieurs témoins ont observé la créature au crépuscule. Des traces profondes dans la boue, des marques de morsures sur les arbres et des empreintes rappelant de grandes griffes ont été constatées, suggérant des attaques sur de petites proies."},
+                {coords: [48.036, 6.765], text: "Dans cette zone de randonnée au cœur du Parc Naturel Régional des Ballons des Vosges, des éleveurs rapportent des attaques sur des troupeaux de moutons. Des traces sur le sol rocailleux et des signes de lutte sur la végétation ont été observés, accompagnés de hurlements et de bruits étranges durant la nuit."}
+            ];
+
+            var latlngs = [
+                [48.116, 7.000],
+                [48.1, 6.975],
+                [48.042, 6.948],
+                [48.04, 6.85],
+                [48.036, 6.765]
+            ];
+
+            L.polyline(latlngs, {color: '#333', weight: 3, dashArray: '5, 10', opacity: 0.7}).addTo(map);
+
+            var wolfIcon = L.icon({
+                iconUrl: 'https://static.vecteezy.com/system/resources/previews/001/208/567/non_2x/wolf-png.png',
+                iconSize: [32, 32],
+                iconAnchor: [16, 16]
+            });
+
+            latlngs.forEach(function(coords) {
+                L.marker(coords, {icon: wolfIcon}).addTo(map);
+            });
+
+            markers.forEach(function(marker) {
+                L.marker(marker.coords)
+                    .addTo(map)
+                    .bindPopup("<div style='max-width:300px;padding:10px;'>" + marker.text + "</div>")
+                    .on('mouseover', function(e) { this.openPopup(); })
+                    .on('mouseout', function(e) { this.closePopup(); });
+            });
+        });
+    </script>
+</body>
+</html> 
